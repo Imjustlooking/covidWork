@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <title>Home</title>
+    <style>
+      
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
+  </head>
+
+  <body>
+    <input id = "num">
+    <button class="waves-effect waves-light btn"; onclick = "makeTimes()"; width = "200px">GO!</button>
+    <p id = "times"></p>
+  </body>
+
+  <script>
+    function makeTimes() {
+      var numHandle = document.getElementById('num');
+      var showHandle = document.getElementById('times');
+
+      var mynum = parseInt(numHandle.value);
+      if (typeof(mynum) == "number") {
+        var myHTML = mynum + " Times Tables:<br>0";
+        for (var i = 1; i < 99; i++) 
+          myHTML = myHTML + ", " + (i * mynum);
+        myHTML += ".";
+        showHandle.innerHTML = myHTML;
+      }
+      else  
+        showHandle.innerHTML = "Please enter a number!"
+      numHandle.value = "";
+    }
+  </script>
+</html>
