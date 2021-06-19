@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <script src = "mycovid.json"></script>
+  </head>
+
+  <body>
+    <h1>COVID-19 Country data</h1>
+    <div id = "mylist"></div>
+  </body>
+
+  <script>
+    var divHandle = document.getElementById('mylist');
+    var myHTML = "";
+    for (var i = 0; i < coviddata.data.length; i++)
+      myHTML = myHTML + coviddata.data[i].location + "(" + coviddata.data[i].confirmed + ")<br>";
+    divHandle.innerHTML = myHTML;
+  </script>
+</html>
