@@ -57,7 +57,7 @@
     })
 
     function pushMap(response) {
-      var map = L.map('map').setView([39.90, 116.41], 5);
+      var map = L.map('map').setView([20, 20], 2);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -69,8 +69,7 @@
       for (var i = 0; i < myData.length; i++) {
         myRadius = myData[i].confirmed / 20;
         L.circle([myData[i].latitude, myData[i].longitude], {color: "red", radius: myRadius}).addTo(map)
-          .bindPopup(myData[i].location + ":<br>" + myData[i].confirmed)
-          .openPopup();
+          .bindPopup(myData[i].location + ":" + myData[i].confirmed);
       }
     }
 
