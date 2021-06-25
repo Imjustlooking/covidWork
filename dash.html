@@ -3,9 +3,13 @@
     <title>COVID Dashboard</title>
     <link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src = "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
     <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   </head>
 
   <body>
@@ -23,9 +27,6 @@
     <div class="row">
       <div class="col s12 m6">
         <div class="card">
-          <div class="card-image">
-            <img src="0.jpg">
-          </div>
           <div class="card-content">
             <span class="card-title">TOP10 COVID Countries</span>
             <div id = "list"></div>
@@ -37,11 +38,22 @@
         <div class="card">
           <div class="card-content">
             <span class="card-title">TOP10 COVID Countries Map</span>
-            <div id = "map" style = "width: 100%; height: 65%"></div>
+            <div id = "map" style = "width: 100%; height: 44.5%"></div>
           </div>
         </div>
       </div>
 
+    </div>
+
+    <div class = "row">
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">TOP10 COVID Countries Graph</span>
+            <canvas id="bar-chart" width="800" height="450"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 
@@ -54,7 +66,39 @@
       //console.log(response.data.data);
       pushData(response);
       pushMap(response);
+      pushChart(response);
     })
+
+    function pushChart(response) {
+      var mydata = response.data.data;
+      var countries = [];
+      var confirmed = [];
+      for (var i = 0; i < 10; i++) {
+        countries.push(mydata[i].location);
+        confirmed.push(mydata[i].confirmed / 1000000);
+      }
+
+      new Chart(document.getElementById("bar-chart"), {
+          type: 'bar',
+          data: {
+            labels: countries,
+            datasets: [
+              {
+                label: "Confirmed Cases (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#cc66ff", "#3366ff","#cc0066","#ff6600","#99cc00"],
+                data: confirmed
+              }
+            ]
+          },
+          options: {
+            legend: { display: false },
+            title: {
+              display: true,
+              text: 'World Top10 COVIDed Countries(in million)'
+            }
+          }
+      });
+    }
 
     function pushMap(response) {
       var map = L.map('map').setView([20, 20], 2);
