@@ -54,6 +54,15 @@
           </div>
         </div>
       </div>
+
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">TOP10 COVID Countries Graph</span>
+            <canvas id="pie-chart" width="800" height="450"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 
@@ -73,10 +82,14 @@
       var mydata = response.data.data;
       var countries = [];
       var confirmed = [];
+      var totconf = 0;
       for (var i = 0; i < 10; i++) {
         countries.push(mydata[i].location);
         confirmed.push(mydata[i].confirmed / 1000000);
       }
+
+      for (i = 10; i < mydata.length; i++)
+        totconf += mydata[i].confirmed;
 
       new Chart(document.getElementById("bar-chart"), {
           type: 'bar',
@@ -92,6 +105,27 @@
           },
           options: {
             legend: { display: false },
+            title: {
+              display: true,
+              text: 'World Top10 COVIDed Countries(in million)'
+            }
+          }
+      });
+
+      countries[9] = "Rest of the World.";
+      confirmed[9] = totconf / 1000000;
+
+      new Chart(document.getElementById("pie-chart"), {
+          type: 'pie',
+          data: {
+            labels: countries,
+            datasets: [{
+              label: "Confirmed Cases (millions)",
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "#cc66ff", "#3366ff","#cc0066","#ff6600","#99cc00"],
+              data: confirmed
+            }]
+          },
+          options: {
             title: {
               display: true,
               text: 'World Top10 COVIDed Countries(in million)'
