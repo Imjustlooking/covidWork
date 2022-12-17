@@ -67,7 +67,7 @@
   </body>
 
   <script>
-    axios.get("https://www.trackcorona.live/api/countries").then(response => {
+    axios.get("https://bing.com/covid/data").then(response => {
       //console.log(response);
       response.data.data.sort(function(a, b) {
         return b.confirmed - a.confirmed;
